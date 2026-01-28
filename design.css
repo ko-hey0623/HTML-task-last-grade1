@@ -1,0 +1,7 @@
+@charset "uft-8";
+
+footer {
+            background-color: var(--dark-bg);
+            color: white;
+            margin-top: 60px;
+        }

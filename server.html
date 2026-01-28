@@ -6,117 +6,82 @@
     <title>マイチケット - LiveHub</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="design.css">
     <style>
         :root {
             --primary-color: #8b5cf6;
             --secondary-color: #ec4899;
             --accent-color: #06b6d4;
             --dark-bg: #18181b;
-            --discord-color: #5865F2;
-            --line-color: #06C755;
         }
-
-        body {
-            background-color: #f8fafc;
-            font-family: 'Helvetica Neue', Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
-        }
-        
         .navbar {
             background: linear-gradient(135deg, var(--dark-bg) 0%, var(--primary-color) 100%);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-        
         .page-header {
             background: linear-gradient(135deg, var(--dark-bg) 0%, var(--primary-color) 50%, var(--secondary-color) 100%);
             color: white;
-            padding: 100px 0 70px 0;
+            padding: 80px 0 50px 0;
             margin-bottom: 40px;
-            clip-path: ellipse(150% 100% at 50% 0%); /* 下部を少し曲線に */
         }
-        
-        /* チケットカードのレイアウト強化 */
-        .ticket-card {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
-            border: none;
-            border-left: 8px solid var(--primary-color);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        
-        .ticket-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.15);
-        }
-        
-        .ticket-header {
-            background: linear-gradient(135deg, #4f46e5, var(--primary-color));
-            color: white;
-            padding: 25px;
-            position: relative;
-        }
-
-        /* アプリごとのアイコン色付け（動的追加要素） */
-        .bi-discord { color: var(--discord-color) !important; }
-        .bi-line { color: var(--line-color) !important; }
-        
-        .qr-code {
-            width: 100px;
-            height: 100px;
+        .stat-card {
             background: white;
             border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3.5rem;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
-            margin-left: auto;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
         }
-        
-        /* タブのデザイン変更 */
-        .nav-pills .nav-link {
-            color: var(--dark-bg);
-            font-weight: 600;
-            padding: 12px 25px;
-            border-radius: 10px;
-            transition: 0.3s;
+        .ticket-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+            border-left: 5px solid var(--primary-color);
         }
-
-        .tab-btn.active {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
-            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
-        }
-        
-        /* バッジの装飾 */
-        .text-info {
-            background-color: #f0f9ff;
-            padding: 4px 12px;
-            border-radius: 50px;
-            display: inline-block;
-            font-size: 0.85rem;
-            border: 1px solid #e0f2fe;
-            font-weight: 500;
-        }
-
-        .btn-outline-primary {
-            border-radius: 10px;
-            border-width: 2px;
-            font-weight: 600;
-        }
-
-        .btn-outline-warning {
-            border-radius: 10px;
-            border-width: 2px;
-        }
-
-        footer {
-            background-color: var(--dark-bg);
+        .ticket-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            margin-top: 80px;
-            border-top: 5px solid var(--primary-color);
+            padding: 20px;
+        }
+        .qr-code {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+        .table-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
         }
     </style>
 </head>
@@ -129,7 +94,7 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-             <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="index.html">ホーム</a>
@@ -145,50 +110,47 @@
                     </li>
                 </ul>
                 <a href="login-page.html" class="text-decoration-none text-reset">
-                <button class="btn btn-light ms-3 fw-bold shadow-sm">
-                    <i class="bi bi-person-circle"></i> ログイン
-                </button>
+                    <button class="btn btn-light ms-3 fw-bold">
+                        <i class="bi bi-person-circle"></i> ログイン
+                    </button>
                 </a>
             </div>
         </div>
     </nav>
-
-    <div class="page-header text-center">
-        <div class="container">
+    <div class="page-header">
+        <div class="container text-center">
             <h1 class="display-4 fw-bold mb-3">
-                <i class="bi bi-chat-right-dots-fill"></i> おすすめのコミュニティ
+                <i class="bi bi-chat-right-dots"></i> おすすめのコミュニティ
             </h1>
-            <p class="lead opacity-75">音楽仲間を見つけよう</p>
+            <p class="lead">音楽仲間を見つけよう</p>
         </div>
     </div>
-
     <div class="container">
-        <ul class="nav nav-pills mb-5 justify-content-center" id="myTab" role="tablist">
+        <ul class="nav nav-pills mb-4" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link tab-btn active mx-2" id="upcoming-tab" data-bs-toggle="pill" data-bs-target="#upcoming" type="button" role="tab">
-                    <i class="bi bi-grid-fill me-2"></i> サーバー一覧
+                <button class="nav-link tab-btn active" id="upcoming-tab" data-bs-toggle="pill" data-bs-target="#upcoming" type="button" role="tab">
+                    <i class="bi bi-calendar-event"></i> サーバー一覧
                 </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link tab-btn mx-2" id="history-tab" data-bs-toggle="pill" data-bs-target="#history" type="button" role="tab">
-                    <i class="bi bi-bookmark-star-fill me-2"></i> 保存したサーバー
+                <button class="nav-link tab-btn" id="history-tab" data-bs-toggle="pill" data-bs-target="#history" type="button" role="tab">
+                    <i class="bi bi-clock-history"></i> 保存したサーバー
                 </button>
             </li>
         </ul>
-
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="upcoming" role="tabpanel">
                 <div class="ticket-card">
                     <div class="ticket-header">
                         <div class="row align-items-center">
                             <div class="col-md-8">
-                                <h2 class="fw-bold mb-2">米津玄師を語る会</h2>
-                                <p class="mb-1 opacity-75"><i class="bi bi-calendar-event"></i> 2024年12月3日から掲載されています</p>
-                                <span class="badge bg-white text-primary px-3 py-2">Discord</span>
+                                <h1 class="fw-bold mb-2">米津玄師を語る会</h1>
+                                <p class="mb-1"><i class="bi bi-calendar-event"></i> 2024年12月3日から掲載されています</p>
+                                <p class="mb-0">Discord</p>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 text-md-end">
                                 <div class="qr-code">
-                                    <i class="bi bi-discord"></i>
+                                    <i class="bi bi-discord text-dark"></i>
                                 </div>
                             </div>
                         </div>
@@ -196,38 +158,37 @@
                     <div class="card-body p-4">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <h6 class="text-muted text-uppercase small fw-bold mb-3 border-bottom pb-2">サーバー情報</h6>
+                                <h6 class="text-muted mb-2">サーバー情報</h6>
                                 <p class="mb-1"><strong>アプリ：</strong> Discord</p>
                                 <p class="mb-1"><strong>サーバー名：</strong> 米津玄師を語る会</p>
                                 <p class="mb-1"><strong>最近の稼働状況：</strong> 普通</p>
                                 <p class="mb-0"><strong>サーバー人数:</strong> 135人</p>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <h6 class="text-muted text-uppercase small fw-bold mb-3 border-bottom pb-2">タグ</h6>
-                                <p class="mb-2 text-info"># 米津玄師</p>
-                                <p class="mb-2 text-info"># 米津玄師好き集まれ</p>
+                                <h6 class="text-muted mb-2">タグ</h6>
+                                <p class="mb-1 text-info"># 米津玄師</p>
+                                <p class="mb-1 text-info"># 米津玄師好き集まれ</p>
                             </div>
                         </div>
                         <div class="d-flex gap-2 mt-3">
-                            <button class="btn btn-outline-primary flex-grow-1">
+                            <button class="btn btn-outline-primary">
                                 サーバーへはこちらをクリック
                             </button>
-                             <button class="btn btn-outline-warning"><i class="bi bi-star"></i> 保存</button>
+                            <button class="btn btn-outline-warning"><i class="bi bi-star"></i> 保存</button>
                         </div>
                     </div>
                 </div>
-
-                <div class="ticket-card" style="border-left-color: var(--accent-color);">
-                    <div class="ticket-header" style="background: linear-gradient(135deg, #0891b2, var(--accent-color));">
+                <div class="ticket-card">
+                    <div class="ticket-header">
                         <div class="row align-items-center">
                             <div class="col-md-8">
-                                <h2 class="fw-bold mb-2">FINAL FANTASY 音楽サーバー（非公式）</h2>
-                                <p class="mb-1 opacity-75"><i class="bi bi-calendar-event"></i> 2020年8月25日から掲載されています</p>
-                                <span class="badge bg-white text-info px-3 py-2">Discord</span>
+                                <h1 class="fw-bold mb-2">FINAL FANTASY 音楽サーバー（非公式）</h1>
+                                <p class="mb-1"><i class="bi bi-calendar-event"></i> 2020年8月25日から掲載されています</p>
+                                <p class="mb-0">Discord</p>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 text-md-end">
                                 <div class="qr-code">
-                                    <i class="bi bi-discord"></i>
+                                    <i class="bi bi-discord text-dark"></i>
                                 </div>
                             </div>
                         </div>
@@ -235,39 +196,38 @@
                     <div class="card-body p-4">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <h6 class="text-muted text-uppercase small fw-bold mb-3 border-bottom pb-2">サーバー情報</h6>
+                                <h6 class="text-muted mb-2">サーバー情報</h6>
                                 <p class="mb-1"><strong>アプリ：</strong> Discord</p>
                                 <p class="mb-1"><strong>サーバー名：</strong> FINAL FANTASY 音楽サーバー（非公式）</p>
                                 <p class="mb-1"><strong>最近の稼働状況：</strong> 良い</p>
                                 <p class="mb-0"><strong>サーバー人数:</strong> 568人</p>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <h6 class="text-muted text-uppercase small fw-bold mb-3 border-bottom pb-2">タグ</h6>
-                                <p class="mb-2 text-info"># FINAL FANTASY</p>
-                                <p class="mb-2 text-info"># FINAL FANTASY 音楽</p>
-                                <p class="mb-2 text-info"># FFファンどなたでも歓迎</p>
+                                <h6 class="text-muted mb-2">タグ</h6>
+                                <p class="mb-1 text-info"># FINAL FANTASY</p>
+                                <p class="mb-1 text-info"># FINAL FANTASY 音楽</p>
+                                <p class="mb-1 text-info"># FFファンどなたでも歓迎</p>
                             </div>
                         </div>
                         <div class="d-flex gap-2 mt-3">
-                            <button class="btn btn-outline-primary flex-grow-1">
+                            <button class="btn btn-outline-primary">
                                 サーバーへはこちらをクリック
                             </button>
-                             <button class="btn btn-outline-warning"><i class="bi bi-star"></i> 保存</button>
+                            <button class="btn btn-outline-warning"><i class="bi bi-star"></i> 保存</button>
                         </div>
                     </div>
                 </div>
-
-                <div class="ticket-card" style="border-left-color: var(--line-color);">
-                    <div class="ticket-header" style="background: linear-gradient(135deg, #059669, var(--line-color));">
+                <div class="ticket-card">
+                    <div class="ticket-header">
                         <div class="row align-items-center">
                             <div class="col-md-8">
-                                <h2 class="fw-bold mb-2">Adoファンクラブ</h2>
-                                <p class="mb-1 opacity-75"><i class="bi bi-calendar-event"></i> 2025年5月6日から掲載されています</p>
-                                <span class="badge bg-white text-success px-3 py-2">LINE</span>
+                                <h1 class="fw-bold mb-2">Adoファンクラブ</h1>
+                                <p class="mb-1"><i class="bi bi-calendar-event"></i> 2025年5月6日から掲載されています</p>
+                                <p class="mb-0">LINE</p>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 text-md-end">
                                 <div class="qr-code">
-                                    <i class="bi bi-line"></i>
+                                    <i class="bi bi-line text-dark"></i>
                                 </div>
                             </div>
                         </div>
@@ -275,40 +235,39 @@
                     <div class="card-body p-4">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <h6 class="text-muted text-uppercase small fw-bold mb-3 border-bottom pb-2">サーバー情報</h6>
+                                <h6 class="text-muted mb-2">サーバー情報</h6>
                                 <p class="mb-1"><strong>アプリ：</strong> LINE</p>
                                 <p class="mb-1"><strong>サーバー名：</strong> Adoファンクラブ</p>
                                 <p class="mb-1"><strong>最近の稼働状況：</strong> 良い</p>
                                 <p class="mb-0"><strong>サーバー人数:</strong> 79人</p>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <h6 class="text-muted text-uppercase small fw-bold mb-3 border-bottom pb-2">タグ</h6>
-                                <p class="mb-2 text-info"># Ado</p>
-                                <p class="mb-2 text-info"># Ado好き集まれ</p>
+                                <h6 class="text-muted mb-2">タグ</h6>
+                                <p class="mb-1 text-info"># Ado</p>
+                                <p class="mb-1 text-info"># Ado好き集まれ</p>
                             </div>
                         </div>
                         <div class="d-flex gap-2 mt-3">
-                            <button class="btn btn-outline-primary flex-grow-1">
+                            <button class="btn btn-outline-primary">
                                 サーバーへはこちらをクリック
                             </button>
-                             <button class="btn btn-outline-warning"><i class="bi bi-star"></i> 保存</button>
+                            <button class="btn btn-outline-warning"><i class="bi bi-star"></i> 保存</button>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div class="tab-pane fade " id="history" role="tabpanel">
-                <div class="ticket-card" style="border-left-color: var(--line-color);">
-                    <div class="ticket-header" style="background: linear-gradient(135deg, #059669, var(--line-color));">
+                <div class="ticket-card">
+                    <div class="ticket-header">
                         <div class="row align-items-center">
                             <div class="col-md-8">
-                                <h2 class="fw-bold mb-2">King Gnu同好会</h2>
-                                <p class="mb-1 opacity-75"><i class="bi bi-calendar-event"></i> 2022年7月21日から掲載されています</p>
-                                <span class="badge bg-white text-success px-3 py-2">LINE</span>
+                                <h1 class="fw-bold mb-2">King Gnu同好会</h1>
+                                <p class="mb-1"><i class="bi bi-calendar-event"></i> 2022年7月21日から掲載されています</p>
+                                <p class="mb-0">LINE</p>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 text-md-end">
                                 <div class="qr-code">
-                                    <i class="bi bi-line"></i>
+                                    <i class="bi-line text-dark"></i>
                                 </div>
                             </div>
                         </div>
@@ -316,38 +275,37 @@
                     <div class="card-body p-4">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <h6 class="text-muted text-uppercase small fw-bold mb-3 border-bottom pb-2">サーバー情報</h6>
+                                <h6 class="text-muted mb-2">サーバー情報</h6>
                                 <p class="mb-1"><strong>アプリ：</strong> LINE</p>
                                 <p class="mb-1"><strong>サーバー名：</strong>King Gnu同好会</p>
                                 <p class="mb-1"><strong>最近の稼働状況：</strong> 悪い</p>
                                 <p class="mb-0"><strong>サーバー人数:</strong> 23人</p>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <h6 class="text-muted text-uppercase small fw-bold mb-3 border-bottom pb-2">タグ</h6>
-                                <p class="mb-2 text-info"># King Gnu</p>
-                                <p class="mb-2 text-info"># King Gnu好き集まれ</p>
+                                <h6 class="text-muted mb-2">タグ</h6>
+                                <p class="mb-1 text-info"># King Gnu</p>
+                                <p class="mb-1 text-info"># King Gnu好き集まれ</p>
                             </div>
                         </div>
                         <div class="d-flex gap-2 mt-3">
-                            <button class="btn btn-outline-primary flex-grow-1">
+                            <button class="btn btn-outline-primary">
                                 サーバーへはこちらをクリック
                             </button>
-                             <button class="btn btn-outline-warning"><i class="bi bi-star-fill"></i> 保存</button>
+                            <button class="btn btn-outline-warning"><i class="bi bi-star-fill"></i> 保存</button>
                         </div>
                     </div>
                 </div>
-
-                 <div class="ticket-card">
+                <div class="ticket-card">
                     <div class="ticket-header">
                         <div class="row align-items-center">
                             <div class="col-md-8">
-                                <h2 class="fw-bold mb-2">こっちのけんと布教会</h2>
-                                <p class="mb-1 opacity-75"><i class="bi bi-calendar-event"></i> 2025年4月2日から掲載されています</p>
-                                <span class="badge bg-white text-primary px-3 py-2">Discord</span>
+                                <h1 class="fw-bold mb-2">こっちのけんと布教会</h1>
+                                <p class="mb-1"><i class="bi bi-calendar-event"></i> 2025年4月2日から掲載されています</p>
+                                <p class="mb-0">Discord</p>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 text-md-end">
                                 <div class="qr-code">
-                                    <i class="bi bi-discord"></i>
+                                    <i class="bi bi-discord text-dark"></i>
                                 </div>
                             </div>
                         </div>
@@ -355,68 +313,66 @@
                     <div class="card-body p-4">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <h6 class="text-muted text-uppercase small fw-bold mb-3 border-bottom pb-2">サーバー情報</h6>
+                                <h6 class="text-muted mb-2">サーバー情報</h6>
                                 <p class="mb-1"><strong>アプリ：</strong> Discord</p>
                                 <p class="mb-1"><strong>サーバー名：</strong> こっちのけんと布教会</p>
                                 <p class="mb-1"><strong>最近の稼働状況：</strong> 良い</p>
                                 <p class="mb-0"><strong>サーバー人数:</strong> 54人</p>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <h6 class="text-muted text-uppercase small fw-bold mb-3 border-bottom pb-2">タグ</h6>
-                                <p class="mb-2 text-info"># こっちのけんと</p>
-                                <p class="mb-2 text-info"># こっちのけんと好き集まれ</p>
+                                <h6 class="text-muted mb-2">タグ</h6>
+                                <p class="mb-1 text-info"># こっちのけんと</p>
+                                <p class="mb-1 text-info"># こっちのけんと好き集まれ</p>
                             </div>
                         </div>
                         <div class="d-flex gap-2 mt-3">
-                            <button class="btn btn-outline-primary flex-grow-1">
+                            <button class="btn btn-outline-primary">
                                 サーバーへはこちらをクリック
                             </button>
-                             <button class="btn btn-outline-warning"><i class="bi bi-star-fill"></i> 保存</button>
+                            <button class="btn btn-outline-warning"><i class="bi bi-star-fill"></i> 保存</button>
                         </div>
                     </div>
-                </div>             
+                </div>
             </div>
         </div>
     </div>
-
-    <footer class="py-5">
+    <footer class="py-4">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 mb-4">
+                <div class="col-md-4 mb-3">
                     <h5 class="fw-bold mb-3"><i class="bi bi-music-note-beamed"></i> MusicHub</h5>
-                    <p class="text-light opacity-75">最高の音楽を、今ここで</p>
+                    <p class="text-light">最高の音楽を、今ここで</p>
                 </div>
-                <div class="col-md-2 col-6 mb-4">
+                <div class="col-md-2 mb-3">
                     <h6 class="fw-bold mb-3">サイト情報</h6>
                     <ul class="list-unstyled">
-                        <li><a href="#" class="text-light text-decoration-none opacity-75">About</a></li>
-                        <li><a href="#" class="text-light text-decoration-none opacity-75">利用規約</a></li>
-                        <li><a href="#" class="text-light text-decoration-none opacity-75">プライバシー</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">About</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">利用規約</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">プライバシー</a></li>
                     </ul>
                 </div>
-                <div class="col-md-2 col-6 mb-4">
+                <div class="col-md-2 mb-3">
                     <h6 class="fw-bold mb-3">サポート</h6>
                     <ul class="list-unstyled">
-                        <li><a href="#" class="text-light text-decoration-none opacity-75">ヘルプ</a></li>
-                        <li><a href="#" class="text-light text-decoration-none opacity-75">お問い合わせ</a></li>
-                        <li><a href="#" class="text-light text-decoration-none opacity-75">FAQ</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">ヘルプ</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">お問い合わせ</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">FAQ</a></li>
                     </ul>
                 </div>
-                <div class="col-md-4 mb-4 text-md-end">
+                <div class="col-md-4 mb-3">
                     <h6 class="fw-bold mb-3">フォローする</h6>
-                    <div class="d-flex gap-3 justify-content-md-end">
-                        <a href="#" class="text-light"><i class="bi bi-twitter-x fs-4"></i></a>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-light"><i class="bi bi-twitter fs-4"></i></a>
                         <a href="#" class="text-light"><i class="bi bi-instagram fs-4"></i></a>
                         <a href="#" class="text-light"><i class="bi bi-youtube fs-4"></i></a>
                         <a href="#" class="text-light"><i class="bi bi-spotify fs-4"></i></a>
                     </div>
                 </div>
             </div>
-            <hr class="border-light opacity-25">
-            <p class="text-center text-light opacity-50 mb-0 small">&copy; 2024 MusicHub. All rights reserved.</p>
+            <hr class="border-light">
+            <p class="text-center text-light mb-0">&copy; 2024 MusicHub. All rights reserved.</p>
         </div>
     </footer>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
